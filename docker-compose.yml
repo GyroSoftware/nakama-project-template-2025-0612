@@ -22,19 +22,20 @@ services:
       - data:/var/lib/postgresql/data
 
   tf:
-    image: tensorflow/serving
+    image: bitnami/tensorflow-serving
     container_name: template_tf
     environment:
-      - MODEL_NAME=ttt
+      - TENSORFLOW_SERVING_MODEL_NAME=ttt
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8501/"]
       interval: 10s
       timeout: 5s
       retries: 5
     ports:
+      - "8500"
       - "8501"
     volumes:
-      - ./model:/models/ttt
+      - ./model:/bitnami/model-data
     restart: unless-stopped
 
   nakama:
